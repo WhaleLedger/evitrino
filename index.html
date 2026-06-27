@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Evitrino — Geceyarısı Atölyesi</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231b2a4a'/%3E%3Crect x='26' y='30' width='48' height='9' rx='4.5' fill='%23ffd23f'/%3E%3Crect x='26' y='47' width='32' height='9' rx='4.5' fill='%23fff4e0'/%3E%3Crect x='26' y='64' width='40' height='9' rx='4.5' fill='%23fff4e0'/%3E%3C/svg%3E" />
+<meta name="description" content="Evitrino — minik ustalar, siz uyurken işletmenize rüya gibi bir web sitesi kurar. Geceyarısı Atölyesi." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://unpkg.com/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://unpkg.com/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script type="module" src="https://unpkg.com/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+<style>
+  :root{
+    --night:#141d33; --night-2:#1b2a4a; --ink:#1a1410;
+    --cream:#fff4e0; --cream-dim:#cdbfa6;
+    --gold:#e8b65a; --gold-deep:#c79a4b; --duck:#ffd23f; --peach:#ffb88c;
+    --line:rgba(255,244,224,.16); --ease:cubic-bezier(.22,1,.36,1);
+    --accent:#ffd23f; --menu-bg:rgba(20,23,38,.94);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:auto;}
+  body{background:var(--night);color:var(--cream);font-family:"Hanken Grotesk",sans-serif;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  h1,h2,h3,.display{font-family:"Baloo 2",cursive;font-weight:700;line-height:1.05;letter-spacing:-0.01em;}
+  ::selection{background:var(--duck);color:var(--ink);}
+  a{color:inherit;}
+
+  /* fixed UI */
+  .nav{position:fixed;top:1rem;left:1.1rem;z-index:60;}
+  .logo{display:flex;align-items:center;gap:.5rem;text-decoration:none;color:var(--cream);background:none;border:none;cursor:pointer;font:inherit;padding:.15rem .1rem;}
+  .logo svg{width:34px;height:34px;}
+  .logo .nm{font-family:"Baloo 2";font-weight:700;font-size:1.35rem;}
+  .caret{font-size:.66rem;color:var(--cream-dim);transition:transform .28s var(--ease),color .28s;}
+  .nav:hover .caret,.nav:focus-within .caret,.nav.open .caret{transform:rotate(180deg);color:var(--accent);}
+  .menu{position:absolute;top:100%;left:0;margin-top:.45rem;min-width:190px;display:flex;flex-direction:column;gap:.12rem;background:var(--menu-bg);backdrop-filter:blur(12px);border:1px solid var(--line);border-radius:14px;padding:.45rem;box-shadow:0 22px 54px -22px rgba(0,0,0,.75);opacity:0;transform:translateY(-8px) scale(.98);transform-origin:top left;pointer-events:none;transition:opacity .26s var(--ease),transform .26s var(--ease);}
+  .nav:hover .menu,.nav:focus-within .menu,.nav.open .menu{opacity:1;transform:none;pointer-events:auto;}
+  .menu a{display:flex;align-items:center;gap:.6rem;font-family:"Baloo 2";font-weight:600;font-size:1rem;color:var(--cream);text-decoration:none;padding:.58rem .8rem;border-radius:10px;transition:background .2s,color .2s;white-space:nowrap;}
+  .menu a::before{content:"";width:6px;height:6px;border-radius:50%;background:transparent;flex:0 0 auto;transition:background .2s;}
+  .menu a:hover{background:rgba(255,244,224,.08);color:var(--accent);}
+  .menu a.cur{color:var(--accent);}
+  .menu a.cur::before{background:var(--accent);}
+  .clock{position:fixed;top:1rem;right:1.1rem;z-index:60;display:flex;align-items:center;gap:.5rem;background:rgba(20,17,14,.55);backdrop-filter:blur(8px);border:1px solid var(--line);border-radius:100px;padding:.45rem .9rem;font-family:"Baloo 2";font-weight:600;font-size:1rem;color:var(--cream);}
+  .clock .dot{width:9px;height:9px;border-radius:50%;background:var(--duck);box-shadow:0 0 10px var(--duck);animation:tick 1s steps(2) infinite;}
+  @keyframes tick{50%{opacity:.3;}}
+  .clock small{font-family:"Hanken Grotesk";font-weight:500;font-size:.66rem;color:var(--cream-dim);letter-spacing:.08em;}
+
+  .wa-float{position:fixed;bottom:1.2rem;right:1.2rem;z-index:60;width:56px;height:56px;border-radius:50%;background:#1faf54;display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(31,175,84,.6);transition:transform .3s var(--ease);}
+  .wa-float:hover{transform:scale(1.08) rotate(-6deg);} .wa-float svg{width:28px;height:28px;fill:#fff;}
+
+  /* cat cursor companion */
+  #cat{position:fixed;width:74px;height:74px;z-index:58;pointer-events:none;transform:translate(-50%,-50%);opacity:0;transition:opacity .5s;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4));}
+  #cat img{width:100%;height:100%;object-fit:contain;}
+
+  .btn{display:inline-flex;align-items:center;gap:.55rem;padding:1rem 1.8rem;border-radius:100px;font-family:"Baloo 2";font-weight:600;font-size:1rem;text-decoration:none;border:none;cursor:pointer;transition:transform .25s var(--ease),background .3s;}
+  .btn--duck{background:var(--duck);color:var(--ink);} .btn--duck:hover{transform:translateY(-3px) rotate(-2deg) scale(1.04);}
+  .btn--wa{background:#1faf54;color:#fff;} .btn--wa:hover{transform:translateY(-3px);}
+  .btn--ghost{border:2px solid var(--line);color:var(--cream);background:transparent;} .btn--ghost:hover{background:var(--cream);color:var(--ink);transform:translateY(-3px);}
+  .bouncy:hover{animation:bounce .5s var(--ease);}
+  @keyframes bounce{0%,100%{transform:translateY(0);}30%{transform:translateY(-12px) scale(1.05);}60%{transform:translateY(2px) scale(.98);}}
+
+  /* scene scaffold */
+  .scene{position:relative;min-height:100svh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:6rem clamp(1.2rem,5vw,4rem);}
+  .scene-bg{position:absolute;inset:-8% 0;z-index:0;will-change:transform;}
+  .scene-bg img{width:100%;height:100%;object-fit:cover;}
+  .scene-tint{position:absolute;inset:0;z-index:1;}
+  .scene-in{position:relative;z-index:3;width:100%;max-width:1100px;text-align:center;}
+  .kicker{display:inline-block;font-family:"Baloo 2";font-weight:600;font-size:.78rem;letter-spacing:.24em;text-transform:uppercase;color:var(--duck);background:rgba(20,17,14,.45);padding:.4rem 1rem;border-radius:100px;margin-bottom:1.3rem;}
+  .scene h1{font-size:clamp(2.6rem,7vw,6rem);text-shadow:0 6px 30px rgba(0,0,0,.5);}
+  .scene h2{font-size:clamp(2.2rem,6vw,4.6rem);text-shadow:0 4px 24px rgba(0,0,0,.5);}
+  .scene .sub{margin:1.4rem auto 0;max-width:46ch;font-size:clamp(1.05rem,1.6vw,1.3rem);color:var(--cream);text-shadow:0 2px 14px rgba(0,0,0,.6);}
+  .gold{color:var(--gold);} .duckc{color:var(--duck);}
+  .scrollcue{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);z-index:3;font-family:"Baloo 2";font-size:.95rem;color:var(--cream);text-shadow:0 2px 10px #000;animation:floaty 2.2s ease-in-out infinite;}
+  @keyframes floaty{50%{transform:translate(-50%,8px);}}
+
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease);}
+  .reveal.in{opacity:1;transform:none;}
+  .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}.d4{transition-delay:.4s;}.d5{transition-delay:.5s;}
+
+  /* FILM (scroll-scrubbed) */
+  .film{position:relative;height:440vh;background:#0d1426;}
+  .film-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
+  .film-pin video{width:100%;height:100%;object-fit:cover;background:#0d1426;}
+  .film-vig{position:absolute;inset:0;box-shadow:inset 0 0 220px 50px rgba(13,20,38,.85);pointer-events:none;z-index:2;}
+  .film-hint{position:absolute;top:5.5rem;left:50%;transform:translateX(-50%);z-index:3;font-family:"Baloo 2";font-size:.82rem;color:var(--cream);background:rgba(13,20,38,.5);padding:.35rem .9rem;border-radius:100px;}
+  .film-cap{position:absolute;left:0;right:0;bottom:10%;text-align:center;z-index:3;padding:0 1.2rem;}
+  .film-cap .k{display:inline-block;font-family:"Baloo 2";font-weight:600;font-size:.76rem;letter-spacing:.24em;text-transform:uppercase;color:var(--duck);background:rgba(13,20,38,.6);padding:.35rem .9rem;border-radius:100px;margin-bottom:.7rem;}
+  .film-cap h2{font-size:clamp(1.8rem,5vw,3.4rem);text-shadow:0 4px 22px #000;}
+
+  /* TEAM */
+  #s-team .scene-tint{background:linear-gradient(180deg,rgba(20,29,51,.82),rgba(20,29,51,.66));}
+  .cast{width:100%;max-width:1000px;margin:2rem auto 0;border-radius:20px;overflow:hidden;border:1px solid var(--line);box-shadow:0 30px 80px -40px #000;}
+  .cast img{width:100%;display:block;}
+  .crew{display:grid;grid-template-columns:repeat(5,1fr);gap:.9rem;margin-top:1.6rem;}
+  @media(max-width:880px){.crew{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.crew{grid-template-columns:1fr;}}
+  .crew .c{background:rgba(20,17,14,.55);border:1px solid var(--line);border-radius:16px;padding:1.1rem;text-align:left;transition:transform .3s var(--ease),border-color .3s;}
+  .crew .c:hover{transform:translateY(-5px) rotate(-1deg);border-color:var(--duck);}
+  .crew .c .nm{font-family:"Baloo 2";font-weight:700;font-size:1.15rem;color:var(--gold);}
+  .crew .c .role{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--cream-dim);margin:.1rem 0 .5rem;}
+  .crew .c .li{font-size:.92rem;color:var(--cream);}
+
+  /* GIVES (what you get) */
+  .gives{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.2rem;}
+  @media(max-width:900px){.gives{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.gives{grid-template-columns:1fr;}}
+  .gives .g{background:rgba(20,17,14,.55);border:1px solid var(--line);border-radius:16px;padding:1.4rem;text-align:left;transition:transform .3s var(--ease),border-color .3s;}
+  .gives .g:hover{transform:translateY(-5px);border-color:var(--duck);}
+  .gives .g .gi{font-size:1.6rem;}
+  .gives .g h3{font-size:1.15rem;margin:.5rem 0 .3rem;color:var(--gold);}
+  .gives .g p{font-size:.9rem;color:var(--cream-dim);}
+  .incl{margin-top:1.9rem;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.6rem;}
+  .incl > span{font-family:"Baloo 2";font-weight:600;color:var(--cream);}
+  .incl ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;justify-content:center;}
+  .incl li{font-size:.85rem;color:var(--cream);background:rgba(255,244,224,.07);border:1px solid var(--line);border-radius:100px;padding:.4rem .9rem;}
+
+  /* PLAN */
+  #s-plan .scene-tint{background:linear-gradient(180deg,rgba(20,29,51,.55),rgba(20,29,51,.8));}
+  .plan{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem;}
+  @media(max-width:820px){.plan{grid-template-columns:1fr;}}
+  .plan .p{background:rgba(20,17,14,.6);border:1px dashed var(--gold-deep);border-radius:18px;padding:1.8rem;text-align:left;}
+  .plan .p .n{font-family:"Baloo 2";font-weight:800;font-size:2.2rem;color:var(--duck);}
+  .plan .p h3{font-size:1.4rem;margin:.3rem 0 .4rem;}
+  .plan .p p{color:var(--cream-dim);font-size:.96rem;}
+
+  /* CHAOS / playground */
+  #s-chaos .scene-tint{background:linear-gradient(180deg,rgba(20,17,14,.55),rgba(20,17,14,.72));}
+  .play{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.2rem;}
+  @media(max-width:880px){.play{grid-template-columns:1fr;max-width:460px;margin-inline:auto;}}
+  .toy{background:rgba(20,17,14,.6);border:1px solid var(--line);border-radius:18px;padding:1.4rem;text-align:center;}
+  .toy h3{font-size:1.2rem;margin-bottom:.2rem;color:var(--gold);}
+  .toy p{font-size:.86rem;color:var(--cream-dim);margin-bottom:1rem;}
+  model-viewer{width:100%;height:200px;background:transparent;--poster-color:transparent;}
+  .duck2d{width:130px;height:130px;object-fit:contain;margin:0 auto;display:block;animation:floaty2 3s ease-in-out infinite;}
+  @keyframes floaty2{50%{transform:translateY(-10px) rotate(4deg);}}
+  .spill{height:200px;border-radius:12px;background:#3a2a18;position:relative;overflow:hidden;cursor:pointer;display:grid;place-items:center;}
+  .spill::after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,var(--duck),var(--gold),var(--peach));opacity:0;transition:opacity .6s var(--ease);}
+  .spill:hover::after{opacity:1;}
+  .spill span{position:relative;z-index:2;font-family:"Baloo 2";color:var(--cream);font-weight:600;}
+  .toy .bset{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;height:200px;align-content:center;}
+
+  /* WORK windows */
+  #s-work{background:linear-gradient(180deg,var(--night-2),var(--night));}
+  .windows{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;margin-top:2.6rem;}
+  @media(max-width:900px){.windows{grid-template-columns:1fr 1fr;}}
+  @media(max-width:600px){.windows{grid-template-columns:1fr;max-width:380px;margin-inline:auto;}}
+  .win{position:relative;border-radius:18px;overflow:hidden;border:3px solid var(--gold-deep);background:#000;box-shadow:0 0 40px -8px rgba(232,182,90,.4);text-decoration:none;display:block;transition:transform .35s var(--ease),box-shadow .35s;}
+  .win:hover{transform:translateY(-7px) rotate(-1deg);box-shadow:0 0 60px -6px rgba(232,182,90,.7);}
+  .win video{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;}
+  .win .lbl{position:absolute;left:0;right:0;bottom:0;padding:1.1rem;background:linear-gradient(180deg,transparent,rgba(20,17,14,.92));}
+  .win .nm{font-family:"Baloo 2";font-weight:700;font-size:1.35rem;color:var(--cream);}
+  .win .done{font-size:.78rem;color:var(--duck);font-weight:600;}
+  .win .go{font-size:.86rem;color:var(--gold);}
+
+  /* DAWN */
+  #s-dawn .scene-tint{background:linear-gradient(180deg,rgba(255,184,140,.12),rgba(20,17,14,.35));}
+
+  /* CTA shutter */
+  #s-cta .scene-tint{background:linear-gradient(180deg,rgba(20,29,51,.6),rgba(20,17,14,.8));}
+  .shutter{max-width:520px;margin:2rem auto 0;background:rgba(20,17,14,.7);border:1px solid var(--line);border-radius:22px;padding:2rem;backdrop-filter:blur(6px);}
+  .shutter .roll{font-family:"Baloo 2";font-weight:700;color:var(--ink);background:var(--duck);border:none;border-radius:100px;padding:.9rem 1.6rem;cursor:pointer;font-size:1rem;transition:transform .25s var(--ease);}
+  .shutter .roll:hover{transform:translateY(-3px) scale(1.03);}
+  .shutter form{display:none;flex-direction:column;gap:.8rem;margin-top:.4rem;}
+  .shutter form.open{display:flex;animation:rollup .6s var(--ease);}
+  @keyframes rollup{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+  .shutter input,.shutter textarea{width:100%;background:rgba(255,244,224,.07);border:1px solid var(--line);color:var(--cream);padding:.95rem 1.2rem;border-radius:14px;font-family:"Hanken Grotesk";font-size:1rem;outline:none;}
+  .shutter textarea{resize:vertical;min-height:66px;line-height:1.5;}
+  .shutter input:focus,.shutter textarea:focus{border-color:var(--duck);}
+  .shutter input::placeholder,.shutter textarea::placeholder{color:var(--cream-dim);}
+  .shutter label{text-align:left;font-size:.9rem;color:var(--cream-dim);}
+  .thanks{display:none;text-align:center;margin-top:1rem;font-family:"Baloo 2";font-size:1.2rem;color:var(--duck);}
+  .thanks.show{display:block;animation:rollup .5s var(--ease);}
+
+  footer{background:var(--ink);text-align:center;padding:2.6rem 1.2rem;font-size:.86rem;color:var(--cream-dim);position:relative;z-index:3;}
+  footer .nm{font-family:"Baloo 2";color:var(--cream);font-size:1.3rem;}
+  footer b{color:var(--gold);}
+  .eggduck{position:fixed;left:1rem;bottom:1rem;width:54px;height:54px;z-index:59;cursor:pointer;animation:floaty2 3s ease-in-out infinite;filter:drop-shadow(0 6px 10px rgba(0,0,0,.4));}
+  .eggduck img{width:100%;height:100%;object-fit:contain;pointer-events:none;}
+
+  @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;} .reveal{opacity:1!important;transform:none!important;}}
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav">
+  <button class="logo" id="navbtn" type="button" aria-haspopup="true" aria-expanded="false">
+    <svg viewBox="0 0 64 64"><rect fill="none" stroke="#fff4e0" stroke-width="3.5" x="5" y="5" width="54" height="54" rx="16"/><rect fill="#ffd23f" x="16" y="18" width="32" height="5" rx="2.5"/><rect fill="#fff4e0" x="16" y="29.5" width="21" height="5" rx="2.5"/><rect fill="#fff4e0" x="16" y="41" width="27" height="5" rx="2.5"/></svg>
+    <span class="nm">Evitrino</span><span class="caret" aria-hidden="true">▾</span>
+  </button>
+  <div class="menu" role="menu">
+    <a href="#" role="menuitem" class="cur" aria-current="page">Ana Sayfa</a>
+    <a href="kararsiz/" role="menuitem">Belirsizlik</a>
+    <a href="firsat/" role="menuitem">Fırsat</a>
+  </div>
+</nav>
+<div class="clock"><span class="dot"></span><span id="clk">00:00</span><small>kahveye kalan</small></div>
+
+<!-- 1 HERO -->
+<section class="scene" id="s-hero">
+  <div class="scene-bg"><img src="assets/scene-street.jpg" alt="Geceyarısı çarşı" /></div>
+  <div class="scene-tint" style="background:linear-gradient(180deg,rgba(20,29,51,.35),rgba(20,29,51,.15) 40%,rgba(20,17,14,.6));"></div>
+  <div class="scene-in">
+    <span class="kicker reveal in">Premium Web Tasarımı · Geceyarısı Atölyesi</span>
+    <h1 class="reveal in">Siz uyurken,<br /><span class="duckc">biz çalışırız.</span></h1>
+    <p class="sub reveal in">Küçük bir esnaf uyur. Minik ustalarımız işe koyulur. Sabah ilk kahvesini içerken, dükkânının rüya gibi bir web sitesi çoktan yayında olur.</p>
+  </div>
+  <div class="scrollcue">kaydır 🌙</div>
+</section>
+
+<!-- 2 TEAM -->
+<section class="scene" id="s-team">
+  <div class="scene-bg"><img src="assets/scene-workshop.jpg" alt="Atölye" /></div>
+  <div class="scene-tint"></div>
+  <div class="scene-in">
+    <span class="kicker reveal">00:00 · Şehir uyudu</span>
+    <h2 class="reveal d1">Tanışın: <span class="gold">Evi'ler</span></h2>
+    <p class="sub reveal d2">Vitrin'in arkasındaki minik kapı açıldı. Beş usta düştü ortaya — her biri bir hüner.</p>
+    <div class="cast reveal d2"><img src="assets/makers-lineup.jpg" alt="Evi'ler kadrosu" /></div>
+    <div class="crew">
+      <div class="c reveal d1"><div class="nm">Usta</div><div class="role">Strateji</div><div class="li">Ustabaşı. Hiç konuşmaz, her şeyi tek kaşıyla yönetir.</div></div>
+      <div class="c reveal d2"><div class="nm">Piksel</div><div class="role">Tasarım</div><div class="li">Ressam. Aynı duvarı 4 kez boyar: "krem yeterince sıcak değildi."</div></div>
+      <div class="c reveal d3"><div class="nm">Üç-Boyut</div><div class="role">3B</div><div class="li">Heykeltıraş. Hapşırınca havada 3 boyutlu nesneler beliriverir.</div></div>
+      <div class="c reveal d4"><div class="nm">Makara</div><div class="role">Video</div><div class="li">Yönetmen. Bir güveye binip durmadan "MOTOR!" diye bağırır.</div></div>
+      <div class="c reveal d5"><div class="nm">Kıvılcım</div><div class="role">Etkileşim</div><div class="li">Kıvılcım. Dokunduğu her düğme zıplamaya başlar.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 2.2 GIVES (what you get) -->
+<section class="scene" id="s-gives" style="min-height:auto;">
+  <div class="scene-in">
+    <span class="kicker reveal">00:00 · Ne yapıyoruz</span>
+    <h2 class="reveal d1">Beş usta. Tek iş: <span class="gold">web siteniz.</span></h2>
+    <p class="sub reveal d2">Her usta bir hüner katar; sabaha işletmenize yakışan, satışa hazır bir web sitesi çıkar.</p>
+    <div class="gives">
+      <div class="g reveal d1"><div class="gi">🧭</div><h3>Kurgu &amp; içerik</h3><p>İşinizin en güçlü yanını öne çıkaran sayfa kurgusu ve metin.</p></div>
+      <div class="g reveal d2"><div class="gi">🎨</div><h3>Premium tasarım</h3><p>Markanıza özel, mobil uyumlu, akıcı parallax tasarım.</p></div>
+      <div class="g reveal d3"><div class="gi">🔎</div><h3>SEO &amp; AEO</h3><p>Google aramalarında ve yapay zekâ yanıtlarında bulunur olun — müşteriniz nerede ararsa orada.</p></div>
+      <div class="g reveal d4"><div class="gi">🚀</div><h3>Yayına alma</h3><p>Kendi alan adınızda kurulum, yayın ve teslim.</p></div>
+    </div>
+    <div class="incl reveal d3">
+      <span>Her sitede standart:</span>
+      <ul>
+        <li>WhatsApp butonu</li>
+        <li>Google Haritalar</li>
+        <li>İletişim formu</li>
+        <li>Instagram bağlantıları</li>
+        <li>Mobil uyumlu</li>
+        <li>SEO &amp; hız</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 2.5 FILM (scroll-scrubbed night) -->
+<section class="film" id="s-film">
+  <div class="film-pin">
+    <video id="nightfilm" muted playsinline preload="auto" poster="assets/scene-workshop.jpg"><source src="assets/night-film.mp4" type="video/mp4" /></video>
+    <div class="film-vig"></div>
+    <div class="film-hint">↓ kaydır, geceyi izle</div>
+    <div class="film-cap"><span class="k" id="filmk">00:00 · Şehir uyudu</span><h2 id="filmh">Minik ustalar iş başında.</h2></div>
+  </div>
+</section>
+
+<!-- 3 PLAN -->
+<section class="scene" id="s-plan">
+  <div class="scene-bg"><img src="assets/scene-plan.jpg" alt="Gece planı" /></div>
+  <div class="scene-tint"></div>
+  <div class="scene-in">
+    <span class="kicker reveal">01:30 · Gece Planı</span>
+    <h2 class="reveal d1">Plan basit. <span class="gold">Bir soygun gibi.</span></h2>
+    <div class="plan">
+      <div class="p reveal d1"><div class="n">01</div><h3>Dinle</h3><p>Dükkânın en güzel yanını buluruz — sahibi farkında bile değildir.</p></div>
+      <div class="p reveal d2"><div class="n">02</div><h3>Kur</h3><p>Görselleri Higgsfield ile çizer, kodu Claude ile sıfırdan döker, kaydırmalı bir dünya kurarız.</p></div>
+      <div class="p reveal d3"><div class="n">03</div><h3>Uyandır</h3><p>Kendi alan adına kurar, yayına alırız. Sabah dükkân ışıl ışıl açılır.</p></div>
+    </div>
+    <p class="sub reveal d3">(Planın köşesinde ufak bir ördek karalaması var. Kimse itiraf etmiyor.)</p>
+  </div>
+</section>
+
+<!-- 4 CHAOS playground -->
+<section class="scene" id="s-chaos">
+  <div class="scene-bg"><img src="assets/scene-chaos.jpg" alt="Atölye kaosu" /></div>
+  <div class="scene-tint"></div>
+  <div class="scene-in">
+    <span class="kicker reveal">03:47 · Tam Kaos</span>
+    <h2 class="reveal d1">Bizde kazalar bile<br /><span class="duckc">şaheser olur.</span></h2>
+    <p class="sub reveal d2">Dene bakalım — her oyuncak bir hüner.</p>
+    <div class="play">
+      <div class="toy reveal d1">
+        <h3>Üç-Boyut'un ördeği 🦆</h3><p>Bir hapşırık, bir 3B nesne. Sürükle, döndür.</p>
+        <model-viewer src="assets/duck.glb" alt="3B ördek" auto-rotate camera-controls touch-action="pan-y" disable-zoom shadow-intensity="1" exposure="1.1"></model-viewer>
+        <img class="duck2d" src="assets/duck-cut.png" alt="ördek" style="display:none" />
+      </div>
+      <div class="toy reveal d2">
+        <h3>Piksel'in kazası 🎨</h3><p>Dökülen boya. Üstüne gel, mükemmel degradeye dönüşsün.</p>
+        <div class="spill"><span>üstüme gel ✨</span></div>
+      </div>
+      <div class="toy reveal d3">
+        <h3>Kıvılcım'ın dokunuşu ✦</h3><p>Düğmelere gel — zıplamadan duramazlar.</p>
+        <div class="bset"><button class="btn btn--duck bouncy">Pıt</button><button class="btn btn--ghost bouncy">Zıp</button><button class="btn btn--duck bouncy">Hop</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5 WORK -->
+<section class="scene" id="s-work" style="min-height:auto;">
+  <div class="scene-in">
+    <span class="kicker reveal">06:40 · Geçen Geceki İşlerimiz</span>
+    <h2 class="reveal d1">Üç dükkân. Üç ışık. <span class="gold">Hepsi tek gecede.</span></h2>
+    <p class="sub reveal d2">Yaklaş, içeri bak — pencereden gerçek işler görünüyor.</p>
+    <div class="windows">
+      <a class="win reveal d1" href="demos/kok-coffee/index.html" target="_blank" rel="noopener">
+        <video data-reel muted loop playsinline preload="metadata" poster="assets/case-cafe-poster.jpg"><source src="assets/case-cafe.mp4" type="video/mp4" /></video>
+        <div class="lbl"><div class="done">TAMAMLANDI ✓ 06:54</div><div class="nm">KÖK Coffee</div><div class="go">Kafe & Brunch · Siteyi gör →</div></div>
+      </a>
+      <a class="win reveal d2" href="demos/lale-estetik/index.html" target="_blank" rel="noopener">
+        <video data-reel muted loop playsinline preload="metadata" poster="assets/case-estetik-poster.jpg"><source src="assets/case-estetik.mp4" type="video/mp4" /></video>
+        <div class="lbl"><div class="done">TAMAMLANDI ✓ 06:57</div><div class="nm">LÂLE</div><div class="go">Güzellik & Estetik · Siteyi gör →</div></div>
+      </a>
+      <a class="win reveal d3" href="demos/lumen-dis/index.html" target="_blank" rel="noopener">
+        <video data-reel muted loop playsinline preload="metadata" poster="assets/case-dis-poster.jpg"><source src="assets/case-dis.mp4" type="video/mp4" /></video>
+        <div class="lbl"><div class="done">TAMAMLANDI ✓ 06:58</div><div class="nm">Lümen</div><div class="go">Diş Kliniği · Siteyi gör →</div></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 6 DAWN -->
+<section class="scene" id="s-dawn">
+  <div class="scene-bg"><img src="assets/scene-dawn.jpg" alt="Şafak" /></div>
+  <div class="scene-tint"></div>
+  <div class="scene-in">
+    <span class="kicker reveal">06:59 · Alarm çalmak üzere</span>
+    <h2 class="reveal d1"><span class="gold">Günaydın.</span></h2>
+    <p class="sub reveal d2">Esnaf gözlerini açtı. Dükkânı ışıl ışıl, sitesi yayında. Ustalar çoktan evlerine süzüldü. Nasıl olduğunu hiç bilmeyecek. 🌙</p>
+  </div>
+</section>
+
+<!-- 7 CTA -->
+<section class="scene" id="s-cta">
+  <div class="scene-bg"><img src="assets/scene-shutter.jpg" alt="Kapalı dükkan" /></div>
+  <div class="scene-tint"></div>
+  <div class="scene-in">
+    <span class="kicker reveal">Bir sonraki gece</span>
+    <h2 class="reveal d1">Sıradaki dükkân <span class="duckc">senin mi?</span></h2>
+    <p class="sub reveal d2">Kepengi arala, adını bırak. Gerisini geceye bize bırak.</p>
+    <div class="shutter reveal d2">
+      <button class="roll" id="roll">Kepengi arala ⬆️</button>
+      <form id="cform">
+        <label>Birkaç bilgi bırakın, size özel teklifle dönelim. ☕</label>
+        <input type="text" name="isletme" placeholder="İşletme adı" aria-label="İşletme adı" required />
+        <input type="text" name="ad" placeholder="Ad soyad" aria-label="Ad soyad" required />
+        <input type="tel" name="tel" placeholder="Telefon / WhatsApp" aria-label="Telefon veya WhatsApp" required />
+        <input type="email" name="eposta" placeholder="E-posta (opsiyonel)" aria-label="E-posta" />
+        <textarea name="mesaj" placeholder="Kısaca ne istiyorsunuz? (opsiyonel)" aria-label="Mesaj" rows="3"></textarea>
+        <button type="submit" class="btn btn--duck" style="justify-content:center;">Teklif iste 🔔</button>
+      </form>
+      <div class="thanks" id="thanks">E-posta pencereniz açıldı — “Gönder”e basmanız yeterli. 🌙 Ya da WhatsApp’tan yazabilirsiniz.</div>
+    </div>
+    <div class="reveal d3" style="margin-top:1.4rem;"><a class="btn btn--wa" href="https://wa.me/905324422959?text=Merhaba%2C%20web%20sitesi%20i%C3%A7in%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener">WhatsApp'tan yaz</a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="nm">Evitrino</div>
+  <p style="margin-top:.4rem;">Minik ustalar, büyük işler. · <b>KÖK</b> · <b>LÂLE</b> · <b>Lümen</b> · merhaba@evitrino.com</p>
+  <p style="margin-top:.3rem;font-size:.78rem;">© 2026 Evitrino — siz uyurken çalışır. 🌙</p>
+</footer>
+
+<div id="cat"><img src="assets/cat-cut.png" alt="" /></div>
+<div class="eggduck" id="eggduck" title="vak!"><img src="assets/duck-cut.png" alt="ördek" /></div>
+<a class="wa-float" href="https://wa.me/905324422959?text=Merhaba%2C%20web%20sitesi%20i%C3%A7in%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.488-.915z"/></svg></a>
+
+<script>
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hasGSAP = !!(window.gsap && window.ScrollTrigger);
+  const gsap = window.gsap, ST = window.ScrollTrigger;
+  if (hasGSAP) gsap.registerPlugin(ST);
+
+  // reveals (if no GSAP/CDN, just show everything so nothing stays hidden)
+  if (hasGSAP) document.querySelectorAll('.reveal').forEach(el=>{ if(el.classList.contains('in'))return; ST.create({trigger:el,start:'top 85%',onEnter:()=>el.classList.add('in')}); });
+  else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+
+  // parallax backgrounds
+  if(hasGSAP && !reduced) document.querySelectorAll('.scene-bg').forEach(bg=>{
+    gsap.fromTo(bg,{yPercent:-6},{yPercent:6,ease:'none',scrollTrigger:{trigger:bg.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
+  });
+
+  // countdown clock 00:00 -> 06:59 across whole page
+  const clk = document.getElementById('clk');
+  if (hasGSAP) ST.create({trigger:document.body,start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:(self)=>{
+    const total = Math.round(self.progress*419); const h=Math.floor(total/60), m=total%60;
+    clk.textContent = String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+  }});
+
+  // reels play on view
+  const rio = new IntersectionObserver((es)=>es.forEach(e=>{ e.isIntersecting? e.target.play().catch(()=>{}) : e.target.pause(); }),{threshold:.4});
+  document.querySelectorAll('[data-reel]').forEach(v=>rio.observe(v));
+
+  // scroll-scrubbed night film
+  const film=document.getElementById('nightfilm');
+  if(film){
+    let fready=false; film.addEventListener('loadedmetadata',()=>fready=true);
+    const beats=[
+      {p:0.00,k:'00:00 · Şehir uyudu',h:'Bir minik kapı açıldı.'},
+      {p:0.26,k:'01:30 · Gece planı',h:'Plan kuruldu — bir soygun gibi.'},
+      {p:0.50,k:'03:47 · Atölye',h:'Kazalar bile şaheser oluyor.'},
+      {p:0.80,k:'06:59 · Şafak',h:'Günaydın. 🌙'}
+    ];
+    const fk=document.getElementById('filmk'), fh=document.getElementById('filmh');
+    if(hasGSAP) ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{
+      if(fready && film.duration) film.currentTime=Math.min(film.duration,Math.max(0,self.progress*film.duration));
+      let b=beats[0]; for(const x of beats){ if(self.progress>=x.p) b=x; }
+      if(fk.textContent!==b.k){ fk.textContent=b.k; fh.textContent=b.h; }
+    }});
+    else film.setAttribute('controls','');
+  }
+
+  // cat cursor companion (desktop)
+  const cat=document.getElementById('cat'); let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
+  if(!reduced && matchMedia('(pointer:fine)').matches){
+    addEventListener('pointermove',e=>{ tx=e.clientX+46; ty=e.clientY+40; cat.style.opacity=.9; },{passive:true});
+    (function loop(){ cx+=(tx-cx)*.08; cy+=(ty-cy)*.08; cat.style.left=cx+'px'; cat.style.top=cy+'px'; requestAnimationFrame(loop); })();
+  }
+
+  // duck easter egg: click rains ducks
+  function rainDuck(x,y){ const d=document.createElement('img'); d.src='assets/duck-cut.png'; d.style.cssText='position:fixed;width:46px;height:46px;z-index:200;pointer-events:none;left:'+x+'px;top:'+y+'px;'; document.body.appendChild(d);
+    const dx=(Math.random()-.5)*240, dur=1100+Math.random()*700; const t0=performance.now();
+    (function f(t){ const k=Math.min(1,(t-t0)/dur); d.style.transform='translate('+dx*k+'px,'+(innerHeight*0.7*k)+'px) rotate('+(dx*k)+'deg)'; d.style.opacity=String(1-k); if(k<1)requestAnimationFrame(f); else d.remove(); })(t0);
+  }
+  document.getElementById('eggduck').addEventListener('click',()=>{ for(let i=0;i<8;i++) setTimeout(()=>rainDuck(innerWidth/2+(Math.random()-.5)*120, 60),i*90); });
+
+  // shutter form
+  const roll=document.getElementById('roll'), cform=document.getElementById('cform'), thanks=document.getElementById('thanks');
+  roll.addEventListener('click',()=>{ cform.classList.add('open'); roll.style.display='none'; });
+  cform.addEventListener('submit',e=>{ e.preventDefault();
+    const f=new FormData(cform); const g=k=>(f.get(k)||'').toString().trim();
+    const isletme=g('isletme'), ad=g('ad'), tel=g('tel'), eposta=g('eposta'), mesaj=g('mesaj');
+    const subject='Web sitesi teklif talebi — '+(isletme||ad||'Yeni talep');
+    const body=['İşletme: '+isletme,'Ad soyad: '+ad,'Telefon/WhatsApp: '+tel,'E-posta: '+(eposta||'-'),'','Mesaj:',(mesaj||'-')].join('\n');
+    window.location.href='mailto:merhaba@evitrino.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    cform.style.display='none'; thanks.classList.add('show');
+    for(let i=0;i<14;i++) setTimeout(()=>rainDuck(innerWidth/2+(Math.random()-.5)*300, 80),i*70);
+  });
+
+  // model-viewer fallback to 2D if it errors
+  const mv=document.querySelector('model-viewer');
+  if(mv) mv.addEventListener('error',()=>{ mv.style.display='none'; const f=mv.parentElement.querySelector('.duck2d'); if(f)f.style.display='block'; });
+
+  // nav dropdown (hover handled by CSS; click/touch toggle here)
+  (function(){ const nav=document.getElementById('nav'), btn=document.getElementById('navbtn'); if(!nav||!btn)return;
+    btn.addEventListener('click',e=>{ e.preventDefault(); const open=nav.classList.toggle('open'); btn.setAttribute('aria-expanded',open); });
+    document.addEventListener('click',e=>{ if(!nav.contains(e.target)){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'){ nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); } });
+  })();
+</script>
+</body>
+</html>
