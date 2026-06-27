@@ -1,6 +1,0 @@
-.git
-.git/**
-.gitignore
-.assetsignore
-wrangler.jsonc
-.nojekyll
