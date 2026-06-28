@@ -3,9 +3,26 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Evitrino — Geceyarısı Atölyesi</title>
+<title>İstanbul Premium Parallax Web Tasarım | Evitrino</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%231b2a4a'/%3E%3Crect x='26' y='30' width='48' height='9' rx='4.5' fill='%23ffd23f'/%3E%3Crect x='26' y='47' width='32' height='9' rx='4.5' fill='%23fff4e0'/%3E%3Crect x='26' y='64' width='40' height='9' rx='4.5' fill='%23fff4e0'/%3E%3C/svg%3E" />
-<meta name="description" content="Evitrino — minik ustalar, siz uyurken işletmenize rüya gibi bir web sitesi kurar. Geceyarısı Atölyesi." />
+<meta name="description" content="İstanbul merkezli premium web tasarım stüdyosu. Küçük işletmeler için özel, parallax, mobil uyumlu web siteleri; 3-7 günde, ₺12.000'den. SEO & AEO dahil." />
+<link rel="canonical" href="https://evitrino.com/" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Evitrino" />
+<meta property="og:locale" content="tr_TR" />
+<meta property="og:title" content="Evitrino · Premium Parallax Web Tasarım" />
+<meta property="og:description" content="Geceyarısı Atölyesi: siz uyurken işletmenize rüya gibi bir web sitesi kurarız. İstanbul merkezli, ₺12.000'den, 3-7 günde." />
+<meta property="og:url" content="https://evitrino.com/" />
+<meta property="og:image" content="https://evitrino.com/assets/og-default.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Evitrino · Premium Parallax Web Tasarım" />
+<meta name="twitter:description" content="İstanbul merkezli premium web tasarım. ₺12.000'den, 3-7 günde. SEO & AEO dahil." />
+<meta name="twitter:image" content="https://evitrino.com/assets/og-default.jpg" />
+<link rel="dns-prefetch" href="https://unpkg.com" />
+<link rel="preload" as="image" href="assets/scene-street.jpg" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -115,6 +132,34 @@
   .incl ul{display:flex;flex-wrap:wrap;gap:.5rem;list-style:none;justify-content:center;}
   .incl li{font-size:.85rem;color:var(--cream);background:rgba(255,244,224,.07);border:1px solid var(--line);border-radius:100px;padding:.4rem .9rem;}
 
+  /* PRICING */
+  .price{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-top:2.2rem;}
+  @media(max-width:900px){.price{grid-template-columns:1fr 1fr;}}
+  @media(max-width:520px){.price{grid-template-columns:1fr;}}
+  .price .pk{background:rgba(20,17,14,.55);border:1px solid var(--line);border-radius:16px;padding:1.4rem;text-align:left;}
+  .price .pk h3{font-size:1.2rem;color:var(--gold);}
+  .price .pk .amt{font-family:"Baloo 2";font-weight:700;font-size:1.5rem;color:var(--cream);margin:.3rem 0;}
+  .price .pk .when{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--cream-dim);}
+  .price .pk p{font-size:.9rem;color:var(--cream-dim);margin-top:.5rem;}
+  .price .pk.feat{border-color:var(--duck);}
+  /* FAQ */
+  .faq{max-width:780px;margin:2rem auto 0;text-align:left;}
+  .faq details{background:rgba(20,17,14,.5);border:1px solid var(--line);border-radius:14px;padding:.2rem 1.1rem;margin-bottom:.7rem;}
+  .faq summary{font-family:"Baloo 2";font-weight:600;font-size:1.05rem;color:var(--cream);cursor:pointer;padding:.9rem 0;list-style:none;display:flex;justify-content:space-between;gap:1rem;align-items:center;}
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{content:"+";color:var(--gold);font-size:1.3rem;line-height:1;}
+  .faq details[open] summary::after{content:"-";}
+  .faq p{color:var(--cream-dim);padding:0 0 1rem;font-size:.96rem;}
+
+  /* TESTIMONIALS */
+  .words{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:1060px;margin:1.6rem auto 0;text-align:left;}
+  @media(max-width:900px){.words{grid-template-columns:1fr 1fr;}}
+  @media(max-width:560px){.words{grid-template-columns:1fr;}}
+  .words .q{background:rgba(20,17,14,.55);border:1px solid var(--line);border-radius:16px;padding:1.3rem 1.4rem;}
+  .words .q blockquote{font-size:1rem;line-height:1.5;color:var(--cream);}
+  .words .q .who{margin-top:.8rem;font-size:.85rem;color:var(--gold);font-family:"Baloo 2";font-weight:600;}
+  .words .q.feat{border-color:var(--duck);}
+
   /* PLAN */
   #s-plan .scene-tint{background:linear-gradient(180deg,rgba(20,29,51,.55),rgba(20,29,51,.8));}
   .plan{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;margin-top:2.4rem;}
@@ -180,6 +225,74 @@
 
   @media (prefers-reduced-motion: reduce){*,*::before,*::after{animation:none!important;transition:none!important;} .reveal{opacity:1!important;transform:none!important;}}
 </style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ProfessionalService",
+      "@id": "https://evitrino.com/#business",
+      "name": "Evitrino",
+      "description": "İstanbul merkezli, tamamen online çalışan premium web tasarım stüdyosu. Küçük işletmeler için özel, parallax, mobil uyumlu web siteleri kurar.",
+      "url": "https://evitrino.com/",
+      "image": "https://evitrino.com/assets/og-default.jpg",
+      "logo": "https://evitrino.com/assets/og-default.jpg",
+      "email": "merhaba@evitrino.com",
+      "telephone": "+905324422959",
+      "priceRange": "₺₺",
+      "knowsLanguage": "tr",
+      "areaServed": { "@type": "Country", "name": "Türkiye" },
+      "address": { "@type": "PostalAddress", "addressLocality": "İstanbul", "addressRegion": "İstanbul", "addressCountry": "TR" },
+      "sameAs": ["https://instagram.com/evitrino", "https://wa.me/905324422959"],
+      "contactPoint": { "@type": "ContactPoint", "contactType": "sales", "telephone": "+905324422959", "email": "merhaba@evitrino.com", "availableLanguage": ["Turkish"] }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://evitrino.com/#website",
+      "name": "Evitrino",
+      "url": "https://evitrino.com/",
+      "inLanguage": "tr",
+      "publisher": { "@id": "https://evitrino.com/#business" }
+    },
+    {
+      "@type": "Service",
+      "@id": "https://evitrino.com/#service",
+      "serviceType": "Web sitesi tasarımı",
+      "name": "Premium parallax web tasarımı",
+      "provider": { "@id": "https://evitrino.com/#business" },
+      "areaServed": { "@type": "Country", "name": "Türkiye" },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Web tasarım paketleri",
+        "itemListElement": [
+          { "@type": "Offer", "name": "Vitrin", "priceCurrency": "TRY", "price": "12000", "description": "Tek sayfa premium parallax web sitesi, 3-5 günde teslim." },
+          { "@type": "Offer", "name": "Profesyonel", "priceCurrency": "TRY", "price": "28000", "description": "Çok bölümlü özel web sitesi, 5-7 günde teslim." },
+          { "@type": "Offer", "name": "Premium", "description": "İleri animasyon, video kurgu ve 3B öğelerle üst düzey web sitesi.", "priceSpecification": { "@type": "PriceSpecification", "minPrice": "40000", "priceCurrency": "TRY" } },
+          { "@type": "Offer", "name": "Bakım", "description": "Aylık güncelleme, yedekleme ve teknik destek.", "priceSpecification": { "@type": "UnitPriceSpecification", "price": "2200", "priceCurrency": "TRY", "unitText": "MONTH" } }
+        ]
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://evitrino.com/#faq",
+      "mainEntity": [
+        { "@type": "Question", "name": "Evitrino nedir?", "acceptedAnswer": { "@type": "Answer", "text": "İstanbul merkezli, tamamen online çalışan premium web tasarım stüdyosudur. Türkiye'deki küçük işletmelere özel, kaydırmalı (parallax) web siteleri kurar; hazır şablon kullanmaz." } },
+        { "@type": "Question", "name": "Web sitesi ne kadar?", "acceptedAnswer": { "@type": "Answer", "text": "Vitrin ₺12.000'den, Profesyonel ₺28.000'den, Premium ₺40.000'den başlar. Size uygun paketi kısa bir görüşmede netleştirir, özel teklifle döneriz." } },
+        { "@type": "Question", "name": "Ne kadar sürede teslim edilir?", "acceptedAnswer": { "@type": "Answer", "text": "Vitrin paketini 3-5 günde, Profesyonel paketini 5-7 günde teslim ederiz; Premium kapsamına göre değişir. Tarihi başında netleştirir, söz verdiğimiz gün yayına alırız." } },
+        { "@type": "Question", "name": "Paketlere neler dahil?", "acceptedAnswer": { "@type": "Answer", "text": "Mobil uyumlu tasarım, WhatsApp butonu, iletişim formu, Google Haritalar, Instagram bağlantıları, hız optimizasyonu ve SEO standarttır. Üst paketlerde daha fazla sayfa, animasyon, 3B ve video yer alır." } },
+        { "@type": "Question", "name": "Parallax web sitesi nedir?", "acceptedAnswer": { "@type": "Answer", "text": "Siz kaydırdıkça arka ve ön planın farklı hızlarda hareket ettiği, derinlik ve sinema hissi veren tasarım tekniğidir. Markanızı sıradan sitelerden çok daha akılda kalıcı kılar." } },
+        { "@type": "Question", "name": "Hazır şablon mu, özel tasarım mı?", "acceptedAnswer": { "@type": "Answer", "text": "Tamamen özel tasarım. Görselleri işinize özel üretir, kodu sıfırdan yazarız; internette size benzeyen başka bir site olmaz." } },
+        { "@type": "Question", "name": "Alan adı ve hosting dahil mi?", "acceptedAnswer": { "@type": "Answer", "text": "Sitenizi kendi alan adınızda kurar ve yayına alırız; süreçleri sizin adınıza yönetiriz. İsterseniz aylık ₺2.200 Bakım paketiyle güncelleme, yedekleme ve teknik takibi de biz üstleniriz." } },
+        { "@type": "Question", "name": "Nerede hizmet veriyorsunuz?", "acceptedAnswer": { "@type": "Answer", "text": "İstanbul'dayız, ancak tamamen online çalıştığımız için Türkiye'nin her yerindeki işletmelere hizmet veriyoruz. Tüm süreci WhatsApp, e-posta ve görüşmelerle yürütürüz." } },
+        { "@type": "Question", "name": "Hangi işletmeler için uygun?", "acceptedAnswer": { "@type": "Answer", "text": "Kafeler, restoranlar, güzellik ve estetik merkezleri, klinikler, kuaförler, butikler ve hizmet veren küçük işletmeler için idealiz." } },
+        { "@type": "Question", "name": "Google'da ve yapay zekâ aramalarında bulunur muyum?", "acceptedAnswer": { "@type": "Answer", "text": "Evet. Her siteyi hem Google aramaları (SEO) hem de yapay zekâ yanıt motorları (AEO) için optimize ederiz; müşteriniz nerede ararsa orada karşısına çıkarsınız." } },
+        { "@type": "Question", "name": "Bakım paketi şart mı?", "acceptedAnswer": { "@type": "Answer", "text": "Hayır, isteğe bağlıdır. Teslimden sonra dilerseniz aylık ₺2.200 Bakım paketiyle destek alırsınız; istemezseniz site tamamen sizindir." } },
+        { "@type": "Question", "name": "Nasıl başlıyoruz?", "acceptedAnswer": { "@type": "Answer", "text": "En kolayı WhatsApp'tan yazmanız: wa.me/905324422959. Dilerseniz merhaba@evitrino.com adresine de yazabilirsiniz. İşinizi dinler, aynı gün size en uygun paketi ve teklifi iletiriz." } }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
@@ -210,13 +323,13 @@
 
 <!-- 2 TEAM -->
 <section class="scene" id="s-team">
-  <div class="scene-bg"><img src="assets/scene-workshop.jpg" alt="Atölye" /></div>
+  <div class="scene-bg"><img src="assets/scene-workshop.jpg" alt="Evitrino atölyesi, gece çalışan minik ustalar" loading="lazy" decoding="async" /></div>
   <div class="scene-tint"></div>
   <div class="scene-in">
     <span class="kicker reveal">00:00 · Şehir uyudu</span>
     <h2 class="reveal d1">Tanışın: <span class="gold">Evi'ler</span></h2>
-    <p class="sub reveal d2">Vitrin'in arkasındaki minik kapı açıldı. Beş usta düştü ortaya — her biri bir hüner.</p>
-    <div class="cast reveal d2"><img src="assets/makers-lineup.jpg" alt="Evi'ler kadrosu" /></div>
+    <p class="sub reveal d2">Vitrin'in arkasındaki minik kapı açıldı. Beş usta düştü ortaya, her biri bir hüner.</p>
+    <div class="cast reveal d2"><img src="assets/makers-lineup.jpg" alt="Evi'ler kadrosu · Evitrino'nun beş tasarım ustası" loading="lazy" decoding="async" /></div>
     <div class="crew">
       <div class="c reveal d1"><div class="nm">Usta</div><div class="role">Strateji</div><div class="li">Ustabaşı. Hiç konuşmaz, her şeyi tek kaşıyla yönetir.</div></div>
       <div class="c reveal d2"><div class="nm">Piksel</div><div class="role">Tasarım</div><div class="li">Ressam. Aynı duvarı 4 kez boyar: "krem yeterince sıcak değildi."</div></div>
@@ -236,7 +349,7 @@
     <div class="gives">
       <div class="g reveal d1"><div class="gi">🧭</div><h3>Kurgu &amp; içerik</h3><p>İşinizin en güçlü yanını öne çıkaran sayfa kurgusu ve metin.</p></div>
       <div class="g reveal d2"><div class="gi">🎨</div><h3>Premium tasarım</h3><p>Markanıza özel, mobil uyumlu, akıcı parallax tasarım.</p></div>
-      <div class="g reveal d3"><div class="gi">🔎</div><h3>SEO &amp; AEO</h3><p>Google aramalarında ve yapay zekâ yanıtlarında bulunur olun — müşteriniz nerede ararsa orada.</p></div>
+      <div class="g reveal d3"><div class="gi">🔎</div><h3>SEO &amp; AEO</h3><p>Google aramalarında ve yapay zekâ yanıtlarında bulunur olun; müşteriniz nerede ararsa orada.</p></div>
       <div class="g reveal d4"><div class="gi">🚀</div><h3>Yayına alma</h3><p>Kendi alan adınızda kurulum, yayın ve teslim.</p></div>
     </div>
     <div class="incl reveal d3">
@@ -253,10 +366,29 @@
   </div>
 </section>
 
+<!-- 2.3 FACTS (extractable summary) -->
+<section class="scene" id="s-facts" style="min-height:auto;">
+  <div class="scene-in" style="max-width:900px;">
+    <span class="kicker reveal in">Kısaca Evitrino</span>
+    <h2 class="reveal in">İstanbul merkezli, <span class="gold">online</span> premium web tasarım stüdyosu.</h2>
+    <p class="sub reveal in" style="max-width:60ch;">Evitrino, Türkiye'nin her yerindeki küçük ve orta ölçekli işletmelere (kafe ve restoranlar, klinikler, güzellik &amp; estetik merkezleri, kuaförler ve hizmet işletmeleri) özel tasarım, kaydırmalı (parallax), mobil uyumlu web siteleri kurar. Hazır şablon kullanmayız. Teslim süresi <b>3-7 gün</b>, fiyatlar <b>₺12.000'den</b> başlar.</p>
+    <div class="incl reveal in" style="margin-top:1.6rem;">
+      <ul>
+        <li><b>Ne:</b> Özel parallax web siteleri</li>
+        <li><b>Kim için:</b> Küçük &amp; orta işletmeler</li>
+        <li><b>Nerede:</b> İstanbul · Türkiye geneli (online)</li>
+        <li><b>Süre:</b> 3-7 gün</li>
+        <li><b>Fiyat:</b> ₺12.000'den</li>
+        <li><b>İletişim:</b> <a href="https://wa.me/905324422959">WhatsApp</a> · <a href="mailto:merhaba@evitrino.com">merhaba@evitrino.com</a> · <a href="https://instagram.com/evitrino" rel="me">@evitrino</a></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
 <!-- 2.5 FILM (scroll-scrubbed night) -->
 <section class="film" id="s-film">
   <div class="film-pin">
-    <video id="nightfilm" muted playsinline preload="auto" poster="assets/scene-workshop.jpg"><source src="assets/night-film.mp4" type="video/mp4" /></video>
+    <video id="nightfilm" muted playsinline preload="metadata" poster="assets/scene-workshop.jpg"><source src="assets/night-film.mp4" type="video/mp4" /></video>
     <div class="film-vig"></div>
     <div class="film-hint">↓ kaydır, geceyi izle</div>
     <div class="film-cap"><span class="k" id="filmk">00:00 · Şehir uyudu</span><h2 id="filmh">Minik ustalar iş başında.</h2></div>
@@ -265,13 +397,13 @@
 
 <!-- 3 PLAN -->
 <section class="scene" id="s-plan">
-  <div class="scene-bg"><img src="assets/scene-plan.jpg" alt="Gece planı" /></div>
+  <div class="scene-bg"><img src="assets/scene-plan.jpg" alt="Gece planı, web sitesi tasarım taslağı" loading="lazy" decoding="async" /></div>
   <div class="scene-tint"></div>
   <div class="scene-in">
     <span class="kicker reveal">01:30 · Gece Planı</span>
     <h2 class="reveal d1">Plan basit. <span class="gold">Bir soygun gibi.</span></h2>
     <div class="plan">
-      <div class="p reveal d1"><div class="n">01</div><h3>Dinle</h3><p>Dükkânın en güzel yanını buluruz — sahibi farkında bile değildir.</p></div>
+      <div class="p reveal d1"><div class="n">01</div><h3>Dinle</h3><p>Dükkânın en güzel yanını buluruz; sahibi farkında bile değildir.</p></div>
       <div class="p reveal d2"><div class="n">02</div><h3>Kur</h3><p>Görselleri Higgsfield ile çizer, kodu Claude ile sıfırdan döker, kaydırmalı bir dünya kurarız.</p></div>
       <div class="p reveal d3"><div class="n">03</div><h3>Uyandır</h3><p>Kendi alan adına kurar, yayına alırız. Sabah dükkân ışıl ışıl açılır.</p></div>
     </div>
@@ -281,12 +413,12 @@
 
 <!-- 4 CHAOS playground -->
 <section class="scene" id="s-chaos">
-  <div class="scene-bg"><img src="assets/scene-chaos.jpg" alt="Atölye kaosu" /></div>
+  <div class="scene-bg"><img src="assets/scene-chaos.jpg" alt="Atölye kaosu, yaratıcı tasarım süreci" loading="lazy" decoding="async" /></div>
   <div class="scene-tint"></div>
   <div class="scene-in">
     <span class="kicker reveal">03:47 · Tam Kaos</span>
     <h2 class="reveal d1">Bizde kazalar bile<br /><span class="duckc">şaheser olur.</span></h2>
-    <p class="sub reveal d2">Dene bakalım — her oyuncak bir hüner.</p>
+    <p class="sub reveal d2">Dene bakalım; her oyuncak bir hüner.</p>
     <div class="play">
       <div class="toy reveal d1">
         <h3>Üç-Boyut'un ördeği 🦆</h3><p>Bir hapşırık, bir 3B nesne. Sürükle, döndür.</p>
@@ -298,7 +430,7 @@
         <div class="spill"><span>üstüme gel ✨</span></div>
       </div>
       <div class="toy reveal d3">
-        <h3>Kıvılcım'ın dokunuşu ✦</h3><p>Düğmelere gel — zıplamadan duramazlar.</p>
+        <h3>Kıvılcım'ın dokunuşu ✦</h3><p>Düğmelere gel, zıplamadan duramazlar.</p>
         <div class="bset"><button class="btn btn--duck bouncy">Pıt</button><button class="btn btn--ghost bouncy">Zıp</button><button class="btn btn--duck bouncy">Hop</button></div>
       </div>
     </div>
@@ -310,7 +442,7 @@
   <div class="scene-in">
     <span class="kicker reveal">06:40 · Geçen Geceki İşlerimiz</span>
     <h2 class="reveal d1">Üç dükkân. Üç ışık. <span class="gold">Hepsi tek gecede.</span></h2>
-    <p class="sub reveal d2">Yaklaş, içeri bak — pencereden gerçek işler görünüyor.</p>
+    <p class="sub reveal d2">Yaklaş, içeri bak; pencereden gerçek işler görünüyor.</p>
     <div class="windows">
       <a class="win reveal d1" href="demos/kok-coffee/index.html" target="_blank" rel="noopener">
         <video data-reel muted loop playsinline preload="metadata" poster="assets/case-cafe-poster.jpg"><source src="assets/case-cafe.mp4" type="video/mp4" /></video>
@@ -325,12 +457,21 @@
         <div class="lbl"><div class="done">TAMAMLANDI ✓ 06:58</div><div class="nm">Lümen</div><div class="go">Diş Kliniği · Siteyi gör →</div></div>
       </a>
     </div>
+    <h3 class="reveal in" style="margin-top:2.6rem;font-size:1.45rem;color:var(--gold);">Müşterilerimiz ne diyor?</h3>
+    <div class="words">
+      <div class="q feat reveal in"><blockquote>“Lojistik sektöründe güven veren, kurumsal bir web sitesi istiyorduk; Evitrino tam da bunu kurdu. Süreç hızlı ve netti, sonuç beklentimizin üzerinde.”</blockquote><div class="who"><a href="https://simalojistik.com" target="_blank" rel="noopener" class="gold">Sima Lojistik</a></div></div>
+      <div class="q reveal in"><blockquote>“Markamızı tam yansıtan, iştah açan bir site oldu. Teklif formu sayesinde tüm taleplere tek yerden bakıyoruz; her şey çok pratik.”</blockquote><div class="who">Catering markası</div></div>
+      <div class="q reveal in"><blockquote>“Düğün hazırlığı kadar zarif bir site hayal ediyorduk. Çiftler siteyi görünce bize çok daha hazır ve güvenle ulaşıyor.”</blockquote><div class="who">Düğün organizasyonu markası</div></div>
+      <div class="q reveal in"><blockquote>“Koleksiyonumuz dijitalde de butik bir vitrine kavuştu. Instagram'dan gelenler artık siteyi bir mağaza gibi geziyor.”</blockquote><div class="who">Giyim markası</div></div>
+      <div class="q reveal in"><blockquote>“Doğal ürün anlayışımıza yakışan, sade ve güven veren bir site. Müşterilerimiz ürünleri ve içerikleri çok daha kolay buluyor.”</blockquote><div class="who">Organik deodorant markası</div></div>
+    </div>
+    <p class="sub reveal in" style="margin-top:1.4rem;font-size:.92rem;color:var(--cream-dim);">Gerçek müşteri çalışması: <a href="https://simalojistik.com" target="_blank" rel="noopener" style="color:var(--cream-dim);text-decoration:underline;">simalojistik.com</a></p>
   </div>
 </section>
 
 <!-- 6 DAWN -->
 <section class="scene" id="s-dawn">
-  <div class="scene-bg"><img src="assets/scene-dawn.jpg" alt="Şafak" /></div>
+  <div class="scene-bg"><img src="assets/scene-dawn.jpg" alt="Şafak, yeni web sitesi yayında" loading="lazy" decoding="async" /></div>
   <div class="scene-tint"></div>
   <div class="scene-in">
     <span class="kicker reveal">06:59 · Alarm çalmak üzere</span>
@@ -339,9 +480,52 @@
   </div>
 </section>
 
+<!-- 6.5 PRICING -->
+<section class="scene" id="s-pricing" style="min-height:auto;">
+  <div class="scene-in">
+    <span class="kicker reveal in">Paketler &amp; Fiyatlar</span>
+    <h2 class="reveal in">Net fiyat, <span class="gold">net teslim.</span></h2>
+    <p class="sub reveal in">Size uygun paketi kısa bir görüşmede netleştirir, özel teklifle döneriz.</p>
+    <div class="price">
+      <div class="pk reveal in"><h3>Vitrin</h3><div class="amt">₺12.000'den</div><div class="when">3-5 gün</div><p>Tek sayfa premium parallax web sitesi + standart paket.</p></div>
+      <div class="pk feat reveal in"><h3>Profesyonel</h3><div class="amt">₺28.000'den</div><div class="when">5-7 gün</div><p>Çok bölümlü özel site, daha fazla içerik &amp; animasyon.</p></div>
+      <div class="pk reveal in"><h3>Premium</h3><div class="amt">₺40.000+</div><div class="when">kapsama göre</div><p>İleri animasyon, video kurgu, 3B öğeler, özel etkileşim.</p></div>
+      <div class="pk reveal in"><h3>Bakım</h3><div class="amt">₺2.200/ay</div><div class="when">opsiyonel</div><p>Güncelleme, yedekleme, küçük değişiklik, teknik destek.</p></div>
+    </div>
+    <div class="incl reveal in" style="margin-top:1.9rem;">
+      <span>Her pakette standart:</span>
+      <ul>
+        <li>Mobil uyumlu tasarım</li><li>WhatsApp butonu</li><li>İletişim formu</li><li>Google Haritalar</li><li>Instagram bağlantıları</li><li>Hız optimizasyonu</li><li>SEO &amp; AEO</li><li>Kendi alan adınızda kurulum</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 6.6 FAQ -->
+<section class="scene" id="s-faq" style="min-height:auto;">
+  <div class="scene-in">
+    <span class="kicker reveal in">Sık Sorulanlar</span>
+    <h2 class="reveal in">Aklınızdaki <span class="gold">sorular.</span></h2>
+    <div class="faq reveal in">
+      <details open><summary>Evitrino nedir?</summary><p>İstanbul merkezli, tamamen online çalışan premium web tasarım stüdyosudur. Türkiye'deki küçük işletmelere özel, kaydırmalı (parallax) web siteleri kurar; hazır şablon kullanmaz.</p></details>
+      <details><summary>Web sitesi ne kadar?</summary><p>Vitrin ₺12.000'den, Profesyonel ₺28.000'den, Premium ₺40.000'den başlar. Size uygun paketi kısa bir görüşmede netleştirir, özel teklifle döneriz.</p></details>
+      <details><summary>Ne kadar sürede teslim edilir?</summary><p>Vitrin paketini 3-5 günde, Profesyonel paketini 5-7 günde teslim ederiz; Premium kapsamına göre değişir. Tarihi başında netleştirir, söz verdiğimiz gün yayına alırız.</p></details>
+      <details><summary>Paketlere neler dahil?</summary><p>Mobil uyumlu tasarım, WhatsApp butonu, iletişim formu, Google Haritalar, Instagram bağlantıları, hız optimizasyonu ve SEO standarttır. Üst paketlerde daha fazla sayfa, animasyon, 3B ve video yer alır.</p></details>
+      <details><summary>Parallax web sitesi nedir?</summary><p>Siz kaydırdıkça arka ve ön planın farklı hızlarda hareket ettiği, derinlik ve sinema hissi veren tasarım tekniğidir. Markanızı sıradan sitelerden çok daha akılda kalıcı kılar.</p></details>
+      <details><summary>Hazır şablon mu, özel tasarım mı?</summary><p>Tamamen özel tasarım. Görselleri işinize özel üretir, kodu sıfırdan yazarız; internette size benzeyen başka bir site olmaz.</p></details>
+      <details><summary>Alan adı ve hosting dahil mi?</summary><p>Sitenizi kendi alan adınızda kurar ve yayına alırız; süreçleri sizin adınıza yönetiriz. İsterseniz aylık ₺2.200 Bakım paketiyle güncelleme, yedekleme ve teknik takibi de biz üstleniriz.</p></details>
+      <details><summary>Nerede hizmet veriyorsunuz?</summary><p>İstanbul'dayız, ancak tamamen online çalıştığımız için Türkiye'nin her yerindeki işletmelere hizmet veriyoruz. Tüm süreci WhatsApp, e-posta ve görüşmelerle yürütürüz.</p></details>
+      <details><summary>Hangi işletmeler için uygun?</summary><p>Kafeler, restoranlar, güzellik ve estetik merkezleri, klinikler, kuaförler, butikler ve hizmet veren küçük işletmeler için idealiz.</p></details>
+      <details><summary>Google'da ve yapay zekâ aramalarında bulunur muyum?</summary><p>Evet. Her siteyi hem Google aramaları (SEO) hem de yapay zekâ yanıt motorları (AEO) için optimize ederiz; müşteriniz nerede ararsa orada karşısına çıkarsınız.</p></details>
+      <details><summary>Bakım paketi şart mı?</summary><p>Hayır, isteğe bağlıdır. Teslimden sonra dilerseniz aylık ₺2.200 Bakım paketiyle destek alırsınız; istemezseniz site tamamen sizindir.</p></details>
+      <details><summary>Nasıl başlıyoruz?</summary><p>En kolayı WhatsApp'tan yazmanız: wa.me/905324422959. Dilerseniz merhaba@evitrino.com adresine de yazabilirsiniz. İşinizi dinler, aynı gün size en uygun paketi ve teklifi iletiriz.</p></details>
+    </div>
+  </div>
+</section>
+
 <!-- 7 CTA -->
 <section class="scene" id="s-cta">
-  <div class="scene-bg"><img src="assets/scene-shutter.jpg" alt="Kapalı dükkan" /></div>
+  <div class="scene-bg"><img src="assets/scene-shutter.jpg" alt="Kapalı dükkân kepengi, sıradaki proje" loading="lazy" decoding="async" /></div>
   <div class="scene-tint"></div>
   <div class="scene-in">
     <span class="kicker reveal">Bir sonraki gece</span>
@@ -358,7 +542,7 @@
         <textarea name="mesaj" placeholder="Kısaca ne istiyorsunuz? (opsiyonel)" aria-label="Mesaj" rows="3"></textarea>
         <button type="submit" class="btn btn--duck" style="justify-content:center;">Teklif iste 🔔</button>
       </form>
-      <div class="thanks" id="thanks">E-posta pencereniz açıldı — “Gönder”e basmanız yeterli. 🌙 Ya da WhatsApp’tan yazabilirsiniz.</div>
+      <div class="thanks" id="thanks">E-posta pencereniz açıldı, “Gönder”e basmanız yeterli. 🌙 Ya da WhatsApp’tan yazabilirsiniz.</div>
     </div>
     <div class="reveal d3" style="margin-top:1.4rem;"><a class="btn btn--wa" href="https://wa.me/905324422959?text=Merhaba%2C%20web%20sitesi%20i%C3%A7in%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener">WhatsApp'tan yaz</a></div>
   </div>
@@ -366,11 +550,17 @@
 
 <footer>
   <div class="nm">Evitrino</div>
-  <p style="margin-top:.4rem;">Minik ustalar, büyük işler. · <b>KÖK</b> · <b>LÂLE</b> · <b>Lümen</b> · merhaba@evitrino.com</p>
-  <p style="margin-top:.3rem;font-size:.78rem;">© 2026 Evitrino — siz uyurken çalışır. 🌙</p>
+  <p style="margin-top:.4rem;max-width:60ch;margin-inline:auto;">İstanbul merkezli, online premium web tasarım stüdyosu. Küçük işletmeler için özel, parallax web siteleri; ₺12.000'den, 3-7 günde.</p>
+  <p style="margin-top:.5rem;">
+    <a href="https://wa.me/905324422959" rel="noopener">WhatsApp</a> ·
+    <a href="mailto:merhaba@evitrino.com">merhaba@evitrino.com</a> ·
+    <a href="https://instagram.com/evitrino" rel="me noopener" target="_blank">Instagram @evitrino</a>
+  </p>
+  <p style="margin-top:.3rem;">Çalışmalarımız: <b>KÖK Coffee</b> · <b>LÂLE</b> · <b>Lümen Diş</b> · <a href="https://simalojistik.com" rel="noopener" target="_blank">Sima Lojistik</a></p>
+  <p style="margin-top:.3rem;font-size:.78rem;">© 2026 Evitrino · siz uyurken çalışır. 🌙 · <a href="kararsiz/">Belirsizlik</a> · <a href="firsat/">Fırsat</a></p>
 </footer>
 
-<div id="cat"><img src="assets/cat-cut.png" alt="" /></div>
+<div id="cat"><img src="assets/cat-cut.png" alt="" role="presentation" /></div>
 <div class="eggduck" id="eggduck" title="vak!"><img src="assets/duck-cut.png" alt="ördek" /></div>
 <a class="wa-float" href="https://wa.me/905324422959?text=Merhaba%2C%20web%20sitesi%20i%C3%A7in%20bilgi%20almak%20istiyorum" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.488-.915z"/></svg></a>
 
@@ -406,7 +596,7 @@
     let fready=false; film.addEventListener('loadedmetadata',()=>fready=true);
     const beats=[
       {p:0.00,k:'00:00 · Şehir uyudu',h:'Bir minik kapı açıldı.'},
-      {p:0.26,k:'01:30 · Gece planı',h:'Plan kuruldu — bir soygun gibi.'},
+      {p:0.26,k:'01:30 · Gece planı',h:'Plan kuruldu, bir soygun gibi.'},
       {p:0.50,k:'03:47 · Atölye',h:'Kazalar bile şaheser oluyor.'},
       {p:0.80,k:'06:59 · Şafak',h:'Günaydın. 🌙'}
     ];
@@ -439,7 +629,7 @@
   cform.addEventListener('submit',e=>{ e.preventDefault();
     const f=new FormData(cform); const g=k=>(f.get(k)||'').toString().trim();
     const isletme=g('isletme'), ad=g('ad'), tel=g('tel'), eposta=g('eposta'), mesaj=g('mesaj');
-    const subject='Web sitesi teklif talebi — '+(isletme||ad||'Yeni talep');
+    const subject='Web sitesi teklif talebi: '+(isletme||ad||'Yeni talep');
     const body=['İşletme: '+isletme,'Ad soyad: '+ad,'Telefon/WhatsApp: '+tel,'E-posta: '+(eposta||'-'),'','Mesaj:',(mesaj||'-')].join('\n');
     window.location.href='mailto:merhaba@evitrino.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
     cform.style.display='none'; thanks.classList.add('show');

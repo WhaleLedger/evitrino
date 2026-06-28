@@ -1,0 +1,29 @@
+# Evitrino
+
+> İstanbul merkezli, tamamen online çalışan premium web tasarım stüdyosu. Türkiye'deki küçük ve orta ölçekli işletmelere özel tasarım, kaydırmalı (parallax), mobil uyumlu web siteleri kurar. Hazır şablon kullanmaz.
+
+## Hizmet
+- Özel parallax/scroll-anlatı web siteleri (tek sayfa ve çok bölümlü)
+- Mobil uyumlu, hız ve SEO/AEO optimizasyonlu
+- Kendi alan adınızda kurulum ve yayına alma
+- Hedef sektörler: kafe/restoran, diş kliniği, estetik/güzellik merkezi, kuaför, hizmet işletmeleri
+
+## Fiyatlar
+- Vitrin: ₺12.000'den (3-5 gün): tek sayfa premium parallax site
+- Profesyonel: ₺28.000'den (5-7 gün): çok bölümlü özel site
+- Premium: ₺40.000+ (kapsama göre): ileri animasyon, video, 3B
+- Bakım: ₺2.200/ay (opsiyonel): güncelleme, yedekleme, destek
+
+## Hizmet alanı
+İstanbul merkezli; tamamen online çalıştığı için Türkiye'nin her yerine hizmet verir.
+
+## İletişim
+- WhatsApp: https://wa.me/905324422959
+- E-posta: merhaba@evitrino.com
+- Instagram: https://instagram.com/evitrino
+
+## Önemli sayfalar
+- Ana sayfa: https://evitrino.com/
+- Belirsizlik kampanyası: https://evitrino.com/kararsiz/
+- Fırsat kampanyası: https://evitrino.com/firsat/
+- Örnek çalışmalar: https://evitrino.com/demos/kok-coffee/ , /demos/lale-estetik/ , /demos/lumen-dis/
