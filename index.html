@@ -612,7 +612,7 @@
     function render(i){ const j=nearest(i); if(j>=0){ drawCover(imgs[j]); curIdx=i; } }
     function schedule(i){ targetIdx=i; if(!rafPending){ rafPending=true; requestAnimationFrame(()=>{ rafPending=false; render(targetIdx); }); } }
     sizeCanvas();
-    for(let i=0;i<NF_N;i++){ const im=new Image(); im.decoding='async'; im.onload=()=>{ loaded[i]=true; if(i===targetIdx||curIdx<0) render(targetIdx); }; im.src=nfUrl(i); imgs[i]=im; }
+    for(let i=0;i<NF_N;i++){ const im=new Image(); im.decoding='async'; im.onload=()=>{ loaded[i]=true; if(i===targetIdx||curIdx<0) render(targetIdx); }; let tries=0; im.onerror=()=>{ if(!loaded[i] && tries<3){ tries++; setTimeout(()=>{ im.src=nfUrl(i)+'?r='+tries; }, 400*tries); } }; im.src=nfUrl(i); imgs[i]=im; }
     addEventListener('resize',()=>{ sizeCanvas(); render(curIdx<0?0:curIdx); },{passive:true});
     setCap(0);
     ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{ schedule(Math.round(self.progress*(NF_N-1))); setCap(self.progress); }});

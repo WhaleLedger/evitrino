@@ -276,6 +276,7 @@
     for(let i=0;i<SEQ_N;i++){
       const im=new Image(); im.decoding='async';
       im.onload=()=>{ loaded[i]=true; if(i===targetIdx || curIdx<0) render(targetIdx); };
+      let tries=0; im.onerror=()=>{ if(!loaded[i] && tries<3){ tries++; setTimeout(()=>{ im.src=frameUrl(i)+'?r='+tries; }, 400*tries); } };
       im.src=frameUrl(i); imgs[i]=im;
     }
     addEventListener('resize', ()=>{ sizeCanvas(); render(curIdx<0?0:curIdx); }, {passive:true});
