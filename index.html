@@ -98,7 +98,8 @@
   /* FILM (scroll-scrubbed) */
   .film{position:relative;height:440vh;background:#0d1426;}
   .film-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-  .film-pin video{width:100%;height:100%;object-fit:cover;background:#0d1426;}
+  .film-pin{background:#0d1426 url(assets/scene-workshop.jpg) center/cover;}
+  #s-film #seq{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;}
   .film-vig{position:absolute;inset:0;box-shadow:inset 0 0 220px 50px rgba(13,20,38,.85);pointer-events:none;z-index:2;}
   .film-hint{position:absolute;top:5.5rem;left:50%;transform:translateX(-50%);z-index:3;font-family:"Baloo 2";font-size:.82rem;color:var(--cream);background:rgba(13,20,38,.5);padding:.35rem .9rem;border-radius:100px;}
   .film-cap{position:absolute;left:0;right:0;bottom:10%;text-align:center;z-index:3;padding:0 1.2rem;}
@@ -388,7 +389,7 @@
 <!-- 2.5 FILM (scroll-scrubbed night) -->
 <section class="film" id="s-film">
   <div class="film-pin">
-    <video id="nightfilm" muted playsinline preload="metadata" poster="assets/scene-workshop.jpg"><source src="assets/night-film.mp4" type="video/mp4" /></video>
+    <canvas id="seq" aria-hidden="true"></canvas>
     <div class="film-vig"></div>
     <div class="film-hint">↓ kaydır, geceyi izle</div>
     <div class="film-cap"><span class="k" id="filmk">00:00 · Şehir uyudu</span><h2 id="filmh">Minik ustalar iş başında.</h2></div>
@@ -590,23 +591,31 @@
   const rio = new IntersectionObserver((es)=>es.forEach(e=>{ e.isIntersecting? e.target.play().catch(()=>{}) : e.target.pause(); }),{threshold:.4});
   document.querySelectorAll('[data-reel]').forEach(v=>rio.observe(v));
 
-  // scroll-scrubbed night film
-  const film=document.getElementById('nightfilm');
-  if(film){
-    let fready=false; film.addEventListener('loadedmetadata',()=>fready=true);
-    const beats=[
-      {p:0.00,k:'00:00 · Şehir uyudu',h:'Bir minik kapı açıldı.'},
-      {p:0.26,k:'01:30 · Gece planı',h:'Plan kuruldu, bir soygun gibi.'},
-      {p:0.50,k:'03:47 · Atölye',h:'Kazalar bile şaheser oluyor.'},
-      {p:0.80,k:'06:59 · Şafak',h:'Günaydın. 🌙'}
-    ];
-    const fk=document.getElementById('filmk'), fh=document.getElementById('filmh');
-    if(hasGSAP) ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{
-      if(fready && film.duration) film.currentTime=Math.min(film.duration,Math.max(0,self.progress*film.duration));
-      let b=beats[0]; for(const x of beats){ if(self.progress>=x.p) b=x; }
-      if(fk.textContent!==b.k){ fk.textContent=b.k; fh.textContent=b.h; }
-    }});
-    else film.setAttribute('controls','');
+  // scroll-scrubbed night film (image sequence on canvas)
+  const seq=document.getElementById('seq'), sctx=seq && seq.getContext('2d');
+  const NF_N=151;
+  const nfUrl=i=>'assets/nightframes/f_'+String(i+1).padStart(3,'0')+'.webp';
+  const nbeats=[
+    {p:0.00,k:'00:00 · Şehir uyudu',h:'Bir minik kapı açıldı.'},
+    {p:0.26,k:'01:30 · Gece planı',h:'Plan kuruldu, bir soygun gibi.'},
+    {p:0.50,k:'03:47 · Atölye',h:'Kazalar bile şaheser oluyor.'},
+    {p:0.80,k:'06:59 · Şafak',h:'Günaydın. 🌙'}
+  ];
+  const fk=document.getElementById('filmk'), fh=document.getElementById('filmh');
+  function setCap(p){ let b=nbeats[0]; for(const x of nbeats){ if(p>=x.p) b=x; } if(fk && fk.textContent!==b.k){ fk.textContent=b.k; fh.textContent=b.h; } }
+  if(seq && sctx && hasGSAP && !reduced){
+    const imgs=new Array(NF_N), loaded=new Array(NF_N).fill(false);
+    let curIdx=-1, targetIdx=0, rafPending=false;
+    function sizeCanvas(){ const dpr=Math.min(window.devicePixelRatio||1,2); seq.width=Math.max(1,Math.round(seq.clientWidth*dpr)); seq.height=Math.max(1,Math.round(seq.clientHeight*dpr)); }
+    function drawCover(img){ const cw=seq.width,ch=seq.height,iw=img.naturalWidth,ih=img.naturalHeight; if(!iw||!ih)return; const s=Math.max(cw/iw,ch/ih),dw=iw*s,dh=ih*s; sctx.drawImage(img,(cw-dw)/2,(ch-dh)/2,dw,dh); }
+    function nearest(i){ if(loaded[i])return i; for(let r=1;r<NF_N;r++){ if(i-r>=0&&loaded[i-r])return i-r; if(i+r<NF_N&&loaded[i+r])return i+r; } return -1; }
+    function render(i){ const j=nearest(i); if(j>=0){ drawCover(imgs[j]); curIdx=i; } }
+    function schedule(i){ targetIdx=i; if(!rafPending){ rafPending=true; requestAnimationFrame(()=>{ rafPending=false; render(targetIdx); }); } }
+    sizeCanvas();
+    for(let i=0;i<NF_N;i++){ const im=new Image(); im.decoding='async'; im.onload=()=>{ loaded[i]=true; if(i===targetIdx||curIdx<0) render(targetIdx); }; im.src=nfUrl(i); imgs[i]=im; }
+    addEventListener('resize',()=>{ sizeCanvas(); render(curIdx<0?0:curIdx); },{passive:true});
+    setCap(0);
+    ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{ schedule(Math.round(self.progress*(NF_N-1))); setCap(self.progress); }});
   }
 
   // cat cursor companion (desktop)

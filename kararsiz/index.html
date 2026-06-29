@@ -90,7 +90,8 @@
   /* FILM (scroll-scrubbed) */
   .film{position:relative;height:340vh;background:#0d1426;}
   .film-pin{position:sticky;top:0;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-  .film-pin video{width:100%;height:100%;object-fit:cover;background:#0d1426;}
+  .film-pin{background:#0d1426 url(assets/poster.jpg) center/cover;}
+  #s-film #seq{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:1;}
   .film-vig{position:absolute;inset:0;z-index:2;box-shadow:inset 0 0 220px 50px rgba(13,20,38,.85);pointer-events:none;}
   .film-scrim{position:absolute;inset:auto 0 0 0;height:58%;z-index:2;background:linear-gradient(180deg,transparent,rgba(13,20,38,.92));pointer-events:none;}
   .film-hint{position:absolute;top:5.5rem;left:50%;transform:translateX(-50%);z-index:3;font-family:"Baloo 2";font-size:.82rem;color:var(--cream);background:rgba(13,20,38,.5);padding:.35rem .9rem;border-radius:100px;}
@@ -99,13 +100,12 @@
   .film-caps{position:absolute;left:0;right:0;bottom:12%;z-index:3;text-align:center;padding:0 1.2rem;min-height:4.6em;}
   .beat{position:absolute;left:0;right:0;padding:0 1.2rem;font-family:"Baloo 2";font-weight:700;line-height:1.08;font-size:clamp(1.7rem,4.6vw,3.3rem);color:var(--cream);text-shadow:0 4px 22px #000,0 0 42px rgba(0,0,0,.7);opacity:0;transform:translateY(16px);transition:opacity .5s var(--ease),transform .5s var(--ease);will-change:opacity,transform;}
   .beat.on{opacity:1;transform:none;}
-  /* fallback (no GSAP / reduced motion): unpin, show video + beats as a list */
+  /* fallback (no GSAP / reduced motion): unpin, poster + beats as a list */
   .film.fb{height:auto;}
-  .film.fb .film-pin{position:static;height:auto;display:block;}
-  .film.fb .film-pin video{height:auto;max-height:80svh;}
-  .film.fb .film-vig,.film.fb .film-scrim,.film.fb .film-hint{display:none;}
-  .film.fb .film-caps{position:static;min-height:0;margin:1.4rem auto 0;}
-  .film.fb .beat{position:static;opacity:1;transform:none;margin:.7rem auto;text-shadow:0 1px 2px rgba(0,0,0,.4);}
+  .film.fb .film-pin{position:static;height:auto;display:block;padding:4rem 1.2rem;}
+  .film.fb #seq,.film.fb .film-vig,.film.fb .film-scrim,.film.fb .film-hint{display:none;}
+  .film.fb .film-caps{position:static;min-height:0;margin:0 auto;max-width:900px;}
+  .film.fb .beat{position:static;opacity:1;transform:none;margin:.7rem auto;text-shadow:0 2px 8px #000;}
 
   /* CTA card */
   .cta-card{max-width:520px;margin:2rem auto 0;display:flex;flex-direction:column;gap:.9rem;background:rgba(20,17,14,.7);border:1px solid var(--line);border-radius:22px;padding:2rem;backdrop-filter:blur(6px);}
@@ -169,7 +169,7 @@
 <!-- 2 FILM -->
 <section class="film" id="s-film">
   <div class="film-pin">
-    <video id="film" muted playsinline preload="metadata" poster="assets/poster.jpg"><source src="assets/film.mp4" type="video/mp4" /></video>
+    <canvas id="seq" aria-hidden="true"></canvas>
     <div class="film-vig"></div>
     <div class="film-scrim"></div>
     <div class="film-hint">↓ kaydır, izle</div>
@@ -236,8 +236,7 @@
   if (hasGSAP) document.querySelectorAll('.reveal').forEach(el=>{ if(el.classList.contains('in'))return; ST.create({trigger:el,start:'top 85%',onEnter:()=>el.classList.add('in')}); });
   else document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
 
-  // scroll-scrubbed film + cross-fading beats
-  const film = document.getElementById('film');
+  // scroll-scrubbed image sequence (canvas) + cross-fading beats
   const beats = [...document.querySelectorAll('.beat')];
   const thresholds = beats.map(b=>parseFloat(b.dataset.p));
   function setBeat(progress){
@@ -245,20 +244,48 @@
     for(let i=0;i<thresholds.length;i++){ if(progress>=thresholds[i]) active=i; }
     beats.forEach((b,i)=>b.classList.toggle('on', i===active));
   }
-  if (film){
-    let fready=false; film.addEventListener('loadedmetadata',()=>fready=true);
-    if (hasGSAP && !reduced){
-      setBeat(0);
-      ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{
-        if(fready && film.duration) film.currentTime = Math.min(film.duration, Math.max(0, self.progress*film.duration));
-        setBeat(self.progress);
-      }});
-    } else {
-      film.setAttribute('controls','');
-      film.removeAttribute('preload');
-      document.getElementById('s-film').classList.add('fb');
-      beats.forEach(b=>b.classList.add('on'));
+
+  const SEQ_N = 120;
+  const canvas = document.getElementById('seq');
+  const ctx = canvas && canvas.getContext('2d');
+  const frameUrl = i => 'frames/f_' + String(i+1).padStart(3,'0') + '.webp';
+
+  if (canvas && ctx && hasGSAP && !reduced){
+    const imgs = new Array(SEQ_N), loaded = new Array(SEQ_N).fill(false);
+    let curIdx = -1, targetIdx = 0, rafPending = false;
+    function sizeCanvas(){
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width  = Math.max(1, Math.round(canvas.clientWidth  * dpr));
+      canvas.height = Math.max(1, Math.round(canvas.clientHeight * dpr));
     }
+    function drawCover(img){
+      const cw=canvas.width, ch=canvas.height, iw=img.naturalWidth, ih=img.naturalHeight;
+      if(!iw||!ih) return;
+      const s=Math.max(cw/iw, ch/ih), dw=iw*s, dh=ih*s;
+      ctx.drawImage(img, (cw-dw)/2, (ch-dh)/2, dw, dh);
+    }
+    function nearest(i){
+      if(loaded[i]) return i;
+      for(let r=1;r<SEQ_N;r++){ if(i-r>=0 && loaded[i-r]) return i-r; if(i+r<SEQ_N && loaded[i+r]) return i+r; }
+      return -1;
+    }
+    function render(i){ const j=nearest(i); if(j>=0){ drawCover(imgs[j]); curIdx=i; } }
+    function schedule(i){ targetIdx=i; if(!rafPending){ rafPending=true; requestAnimationFrame(()=>{ rafPending=false; render(targetIdx); }); } }
+    sizeCanvas();
+    for(let i=0;i<SEQ_N;i++){
+      const im=new Image(); im.decoding='async';
+      im.onload=()=>{ loaded[i]=true; if(i===targetIdx || curIdx<0) render(targetIdx); };
+      im.src=frameUrl(i); imgs[i]=im;
+    }
+    addEventListener('resize', ()=>{ sizeCanvas(); render(curIdx<0?0:curIdx); }, {passive:true});
+    setBeat(0);
+    ST.create({trigger:'#s-film',start:'top top',end:'bottom bottom',scrub:0.3,onUpdate:self=>{
+      schedule(Math.round(self.progress*(SEQ_N-1)));
+      setBeat(self.progress);
+    }});
+  } else {
+    document.getElementById('s-film').classList.add('fb');
+    beats.forEach(b=>b.classList.add('on'));
   }
 
   // nav dropdown (hover handled by CSS; click/touch toggle here)
